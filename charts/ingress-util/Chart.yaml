@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ingress-util
+description: A utility Helm chart for creating standardized ingress resources with tls
+type: library
+version: 0.1.0
+
