@@ -1,0 +1,8 @@
+// VSCode workspace settings for YAML schema association
+{
+  "yaml.schemas": {
+    "./charts/ingress-util/values.schema.json": "charts/ingress-util/values.yaml",
+    "./charts/mariadb/values.schema.json": "charts/mariadb/values.yaml"
+  }
+}
+

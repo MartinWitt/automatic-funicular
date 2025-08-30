@@ -1,0 +1,32 @@
+
+{{- $db := .Values.database -}}
+{{- $name := $db.name | default "mariadb" -}}
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  rootPasswordSecretKeyRef:
+    generate: false
+    name: $db.secretName
+    key: root-password
+  database: {{ $db.database }}
+  username: {{ $db.username }}
+  passwordSecretKeyRef:
+    generate: false
+    name: $db.secretName
+    key: password
+  replicas: {{ $db.replicas | default 1 }}
+  port: {{ $db.port | default 3306 }}
+  storage:
+    size: {{ $db.storage.size | default "1Gi" }}
+    storageClassName: {{ $db.storage.storageClassName | default "local-path" | quote }}
+  resources:
+    requests:
+      cpu: {{ $db.resources.requests.cpu | default "100m" | quote }}
+      memory: {{ $db.resources.requests.memory | default "256Mi" | quote }}
+    limits:
+      cpu: {{ $db.resources.limits.cpu | default "500m" | quote }}
+      memory: {{ $db.resources.limits.memory | default "512Mi" | quote }}
+{{- end }}

@@ -1,0 +1,50 @@
+# Example values for mariadb library chart (single database)
+# Inline documentation for each available key under `database`.
+# Many fields have sensible defaults; password and rootPassword may be omitted
+# to let the template generate secure random values at render time.
+
+database:
+  # Enable rendering of the MariaDB CR + Secret
+  enabled: false # boolean (default: false)
+
+  # Kubernetes resource name for the MariaDB CR and used as a label on the Secret
+  name: "mariadb" # string (default: "mariadb")
+
+  # Name of the Secret resource that will contain credentials
+  # default: "<name>-user" (derived from `name` if omitted)
+  secretName: "mariadb-user" # string
+
+  # Logical database name to create/manage
+  database: "appdb" # string (default: "appdb")
+
+  # Database username that will be stored in the Secret
+  username: "root" # string (default: "root")
+
+  # Plain-text password to store in the Secret for `username`.
+  # If omitted or empty, the template will generate a random password at render time.
+  # For reproducible CI, explicitly set this value from a secrets manager.
+  # password: "" # string (optional)
+
+  # Plain-text root password to store in the Secret.
+  # If omitted, the template will generate a random root password at render time.
+  # rootPassword: "" # string (optional)
+
+  # Number of MariaDB replicas
+  replicas: 1 # integer (default: 1)
+
+  # TCP port MariaDB listens on
+  port: 3306 # integer (default: 3306)
+
+  # Storage settings for the PVC
+  storage:
+    size: "1Gi" # string (default: "1Gi")
+    storageClassName: "local-path" # string (default: "local-path")
+
+  # Resource requests/limits for the MariaDB pods
+  resources:
+    requests:
+      cpu: "100m" # string (default: "100m")
+      memory: "256Mi" # string (default: "256Mi")
+    limits:
+      cpu: "500m" # string (default: "500m")
+      memory: "512Mi" # string (default: "512Mi")
