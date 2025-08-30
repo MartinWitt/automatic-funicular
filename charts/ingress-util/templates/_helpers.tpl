@@ -1,32 +1,35 @@
 {{/*
-Create a standardized ingress resource
+Create a standardized ingress resource (per-item only, no global defaults)
 */}}
 {{- define "ingress-util.ingress"}}
+{{- $ing := .ing }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Values.ingress.name | default .Values.ingress.subdomain }}
+  name: {{ $ing.name | default $ing.subdomain }}
   labels:
-    app: {{ .Values.ingress.name | default .Values.ingress.subdomain }}
+    app: {{ $ing.name | default $ing.subdomain }}
   annotations:
-    cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuer }}
-    {{ if .Values.ingress.annotations }}
-    {{ toYaml .Values.ingress.annotations | nindent 4 }}
-    {{ end }}
+    {{- if $ing.clusterIssuer }}
+    cert-manager.io/cluster-issuer: {{ $ing.clusterIssuer }}
+    {{- end }}
+    {{- if $ing.annotations }}
+    {{ toYaml $ing.annotations | nindent 4 }}
+    {{- end }}
 spec:
   tls:
     - hosts:
-        - {{ .Values.ingress.subdomain }}.{{ .Values.ingress.baseUrl }}
-      secretName: {{ .Values.ingress.subdomain }}-tls
+        - {{ $ing.subdomain }}.{{ $ing.baseUrl }}
+      secretName: {{ $ing.subdomain }}-tls
   rules:
-    - host: {{ .Values.ingress.subdomain }}.{{ .Values.ingress.baseUrl }}
+    - host: {{ $ing.subdomain }}.{{ $ing.baseUrl }}
       http:
         paths:
-          - path: {{ .Values.ingress.path | default "/" }}
-            pathType: {{ .Values.ingress.pathType | default "Prefix" }}
+          - path: {{ $ing.path | default "/" }}
+            pathType: {{ $ing.pathType | default "Prefix" }}
             backend:
               service:
-                name: {{ .Values.ingress.serviceName | default .Values.ingress.subdomain }}
+                name: {{ $ing.serviceName | default $ing.subdomain }}
                 port:
-                  number: {{ .Values.ingress.port }}
+                  number: {{ $ing.port }}
 {{- end -}}

@@ -1,0 +1,17 @@
+ingress:
+  enabled: true
+  items:
+    - subdomain: app1
+      baseUrl: example.com
+      serviceName: app1-svc
+      port: 80
+      clusterIssuer: letsencrypt-prod
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
+    - subdomain: app2
+      baseUrl: example.com
+      serviceName: app2-svc
+      port: 8080
+      path: /app
+      pathType: Prefix
+

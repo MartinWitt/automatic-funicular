@@ -1,27 +1,14 @@
 # Default values for ingress-util
 ingress:
   enabled: true
-  # Required: subdomain for the ingress (will be combined with baseUrl)
-  subdomain: ""
-  # Required: port number for the backend service
-  port: 80
-  # Required: name of the cert-manager clusterissuer to use for TLS
-  clusterIssuer: ""
-  # Required: base URL domain
-  baseUrl: ""
-
-  # Optional: name for the ingress resource (defaults to subdomain)
-  name: ""
-  # Optional: service name (defaults to subdomain)
-  serviceName: ""
-  # Optional: path for the ingress rule (defaults to "/")
-  path: "/"
-  # Optional: path type (defaults to "Prefix")
-  pathType: "Prefix"
-
-  # Optional: additional annotations for the ingress
-  annotations: {}
-    # Examples:
-    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    # nginx.ingress.kubernetes.io/rewrite-target: /
-    # nginx.ingress.kubernetes.io/rate-limit: "100"
+  # Define multiple ingress entries explicitly. Each item must provide its own
+  # required fields (at minimum `subdomain` and `baseUrl`). No global defaults
+  # are used by the templates anymore.
+  # Example:
+  # items:
+  #   - subdomain: app1
+  #     baseUrl: example.com
+  #     serviceName: app1-svc
+  #     port: 80
+  #     clusterIssuer: letsencrypt-prod
+  items: []

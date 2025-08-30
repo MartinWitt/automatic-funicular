@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ingress-util values",
+  "type": "object",
+  "properties": {
+    "ingress": {
+      "type": "object",
+      "description": "Ingress configuration; requires explicit items list (no global defaults).",
+      "properties": {
+        "enabled": { "type": "boolean", "default": true },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [ "subdomain", "baseUrl", "serviceName", "port" ],
+            "properties": {
+              "name": { "type": "string", "description": "Kubernetes resource name (optional)." },
+              "subdomain": { "type": "string", "description": "Subdomain (left-hand part of host)." },
+              "baseUrl": { "type": "string", "description": "Base domain (right-hand part of host)." },
+              "serviceName": { "type": "string", "description": "Backend service name." },
+              "port": { "type": "integer", "minimum": 1, "maximum": 65535, "default": 80 },
+              "clusterIssuer": { "type": "string", "description": "cert-manager ClusterIssuer name (optional)." },
+              "path": { "type": "string", "default": "/" },
+              "pathType": { "type": "string", "enum": ["Prefix", "Exact", "ImplementationSpecific"], "default": "Prefix" },
+              "annotations": { "type": "object", "additionalProperties": { "type": "string" }, "description": "Ingress annotations (map of string -> string)." }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "ingress": {
+        "enabled": true,
+        "items": [
+          {
+            "subdomain": "app1",
+            "baseUrl": "example.com",
+            "serviceName": "app1-svc",
+            "port": 80,
+            "clusterIssuer": "letsencrypt-prod",
+            "annotations": { "nginx.ingress.kubernetes.io/rewrite-target": "/" }
+          }
+        ]
+      }
+    }
+  ]
+}
+
