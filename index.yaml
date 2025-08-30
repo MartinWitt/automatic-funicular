@@ -21,4 +21,16 @@ entries:
     urls:
     - https://github.com/MartinWitt/automatic-funicular/releases/download/ingress-util-0.1.0/ingress-util-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-30T16:39:34.347061869Z"
+  mariadb:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-08-30T19:49:06.302993224Z"
+    description: Library chart that renders MariaDB custom resources and associated
+      Secrets from values.yaml
+    digest: 9649e49981e8c522c67c01fe8ca6d08d4f4393123bb97caad6b8620283f14032
+    name: mariadb
+    type: library
+    urls:
+    - https://github.com/MartinWitt/automatic-funicular/releases/download/mariadb-0.1.0/mariadb-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-08-30T19:49:06.303006769Z"
