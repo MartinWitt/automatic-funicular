@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   ingress-util:
   - apiVersion: v2
+    created: "2025-08-30T16:39:34.347054856Z"
+    description: A utility Helm chart for creating standardized ingress resources
+      with tls
+    digest: ccb424bb31ddfccf945e66da2ddcb318e45eceb07dcbf29d2ff9ac708a437865
+    name: ingress-util
+    type: library
+    urls:
+    - https://github.com/MartinWitt/automatic-funicular/releases/download/ingress-util-0.2.0/ingress-util-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     created: "2025-08-28T23:31:59.797695581Z"
     description: A utility Helm chart for creating standardized ingress resources
       with tls
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://github.com/MartinWitt/automatic-funicular/releases/download/ingress-util-0.1.0/ingress-util-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-28T23:31:59.797702975Z"
+generated: "2025-08-30T16:39:34.347061869Z"
