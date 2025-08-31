@@ -1,14 +1,14 @@
-# ingress-util — Guide
+# ingressutil — Guide
 
 Overview
-- This guide documents the ingress-util Helm chart (library) templates that render one or multiple Kubernetes Ingress resources from explicit per-item entries.
+- This guide documents the ingressutil Helm chart (library) templates that render one or multiple Kubernetes Ingress resources from explicit per-item entries.
 - The chart no longer uses global/default ingress fields; every ingress must be defined in ingress.items.
 
 Files
-- charts/ingress-util/values.schema.json — JSON Schema used for editor autocompletion.
-- charts/ingress-util/values.yaml — example placeholder; real values live in your deployment values files.
-- charts/ingress-util/templates/_helpers.tpl — helper that renders a single Ingress from a per-item object.
-- charts/ingress-util/templates/ingress.yaml — iterates ingress.items and renders each ingress.
+- charts/ingressutil/values.schema.json — JSON Schema used for editor autocompletion.
+- charts/ingressutil/values.yaml — example placeholder; real values live in your deployment values files.
+- charts/ingressutil/templates/_helpers.tpl — helper that renders a single Ingress from a per-item object.
+- charts/ingressutil/templates/ingress.yaml — iterates ingress.items and renders each ingress.
 
 Required fields per item
 - subdomain (string) — left part of the host (required)
@@ -19,17 +19,17 @@ Required fields per item
 Optional fields per item
 - name, clusterIssuer, path, pathType, annotations
 
-Example values (docs/ingress-util/example-values.yaml)
+Example values (docs/ingressutil/example-values.yaml)
 Use this file as a starting point for providing values to helm:
 
 - subdomain and baseUrl are combined into host: "{{subdomain}}.{{baseUrl}}"
 
 Commands
 - Validate/render templates locally (install helm):
-  helm template my-release ./charts/ingress-util -f docs/ingress-util/example-values.yaml --show-only charts/ingress-util/templates/ingress.yaml
+  helm template my-release ./charts/ingressutil -f docs/ingressutil/example-values.yaml --show-only charts/ingressutil/templates/ingress.yaml
 
 Editor autocompletion
-- The repository includes charts/ingress-util/values.schema.json and a .vscode workspace setting to associate the schema with charts/ingress-util/values.yaml. In VS Code (Red Hat YAML extension) you will get key/type completions when editing values.
+- The repository includes charts/ingressutil/values.schema.json and a .vscode workspace setting to associate the schema with charts/ingressutil/values.yaml. In VS Code (Red Hat YAML extension) you will get key/type completions when editing values.
 
 Notes
 - Ensure each item provides its own required fields; the templates will not fall back to global values.

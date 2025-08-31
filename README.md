@@ -7,7 +7,7 @@ This repository is basically a discount warehouse for utility Helm charts. Think
 
 ## 🛟 What's Docked at This Fine Harbor?
 
-### ⚓ ingress-util
+### ⚓ ingressutil
 *"Because setting up ingresses shouldn't feel like navigating through a storm"*
 
 Our star attraction! This little beauty is a library chart that creates standardized ingress resources with TLS certificates. It's like having a lighthouse guide your traffic safely to shore, complete with fancy SSL certificates that would make even the most paranoid sea captain proud.
@@ -26,7 +26,7 @@ helm repo add automatic-funicular https://github.com/MartinWitt/automatic-funicu
 helm repo update
 ```
 
-### Step 2: All Aboard! (Using the ingress-util chart)
+### Step 2: All Aboard! (Using the ingressutil chart)
 
 Create a `values.yaml` file for your journey:
 
@@ -47,7 +47,7 @@ ingress:
 Then deploy it like a boss:
 
 ```bash
-helm install my-ingress automatic-funicular/ingress-util -f values.yaml
+helm install my-ingress automatic-funicular/ingressutil -f values.yaml
 ```
 
 ## 🎭 Why "Automatic Funicular"?

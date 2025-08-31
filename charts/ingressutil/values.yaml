@@ -1,4 +1,4 @@
-# Default values for ingress-util
+# Default values for ingressutil
 ingress:
   enabled: true
   # Define multiple ingress entries explicitly. Each item must provide its own

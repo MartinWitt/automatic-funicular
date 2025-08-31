@@ -1,7 +1,7 @@
 {{/*
 Create a standardized ingress resource (per-item only, no global defaults)
 */}}
-{{- define "ingress-util.ingress"}}
+{{- define "ingressutil.ingress"}}
 {{- $ing := .ing }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
