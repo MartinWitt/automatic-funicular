@@ -1,8 +1,0 @@
-{{- if and .Values.ingress.enabled (gt (len .Values.ingress.items) 0) -}}
-{{- range $i, $item := .Values.ingress.items }}
-{{ include "ingress-util.ingress" (dict "ing" $item) }}
-
-{{- end -}}
-{{- else -}}
-{{- /* No ingress resources rendered: ingress.items is empty or ingress.enabled is false. */ -}}
-{{- end -}}
