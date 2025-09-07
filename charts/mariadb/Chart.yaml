@@ -1,7 +1,7 @@
 apiVersion: v2
 name: mariadb
-description: Library chart that renders MariaDB custom resources and associated Secrets from values.yaml
-type: library
-version: 0.2.2
+description: chart that renders MariaDB custom resources and associated Secrets from values.yaml
+type: application
+version: 0.3.0
 appVersion: "1.0"
 

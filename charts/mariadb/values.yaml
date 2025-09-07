@@ -1,11 +1,11 @@
-# Example values for mariadb library chart (single database)
+# Example values for mariadb application chart (single database)
 # Inline documentation for each available key under `database`.
 # Many fields have sensible defaults; password and rootPassword may be omitted
 # to let the template generate secure random values at render time.
 
 database:
   # Enable rendering of the MariaDB CR + Secret
-  enabled: false # boolean (default: false)
+  enabled: true # boolean (default: true)
 
   # Kubernetes resource name for the MariaDB CR and used as a label on the Secret
   name: "mariadb" # string (default: "mariadb")

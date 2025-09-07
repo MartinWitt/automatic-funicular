@@ -1,4 +1,4 @@
-{{- define "mariadb.mariadb"}}
+{{- if .Values.database.enabled }}
 {{- $db := .Values.database -}}
 {{- $name := $db.name | default "mariadb" -}}
 apiVersion: k8s.mariadb.com/v1alpha1
@@ -9,13 +9,13 @@ metadata:
 spec:
   rootPasswordSecretKeyRef:
     generate: false
-    name: $db.secretName
+    name: {{ $db.secretName }}
     key: root-password
   database: {{ $db.database }}
   username: {{ $db.username }}
   passwordSecretKeyRef:
     generate: false
-    name: $db.secretName
+    name: {{ $db.secretName }}
     key: password
   replicas: {{ $db.replicas | default 1 }}
   port: {{ $db.port | default 3306 }}
