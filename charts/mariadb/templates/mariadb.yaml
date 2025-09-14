@@ -13,10 +13,6 @@ spec:
     key: root-password
   database: {{ $db.database }}
   username: {{ $db.username }}
-  passwordSecretKeyRef:
-    generate: false
-    name: {{ $db.secretName }}
-    key: password
   replicas: {{ $db.replicas | default 1 }}
   port: {{ $db.port | default 3306 }}
   storage:

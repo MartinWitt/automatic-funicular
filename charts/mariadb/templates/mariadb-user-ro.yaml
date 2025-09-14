@@ -1,0 +1,29 @@
+# Read-only user
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: app-ro-user
+  namespace: {{ .Release.Namespace }}
+spec:
+  mariaDbRef:
+    name: {{ .Values.database.name | default "mariadb" }}
+  passwordSecretKeyRef:
+    name: mariadb-app-ro
+    key: password
+  host: "%"
+---
+# Grant read-only privileges to the read-only user
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: app-ro-privileges
+  namespace: {{ .Release.Namespace }}
+spec:
+  mariaDbRef:
+    name: {{ .Values.database.name | default "mariadb" }}
+  privileges:
+    - "SELECT"
+  database: {{ .Values.database.database | default "appdb" }}
+  table: "*"
+  username: app-ro-user
+

@@ -1,0 +1,36 @@
+# Read/Write user
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: app-rw-user
+  namespace: {{ .Release.Namespace }}
+spec:
+  mariaDbRef:
+    name: {{ .Values.database.name | default "mariadb" }}
+  passwordSecretKeyRef:
+    name: mariadb-app-rw
+    key: password
+  host: "%"
+---
+# Grant read/write privileges to the read-write user
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: app-rw-privileges
+  namespace: {{ .Release.Namespace }}
+spec:
+  mariaDbRef:
+    name: {{ .Values.database.name | default "mariadb" }}
+  privileges:
+    - "SELECT"
+    - "INSERT"
+    - "UPDATE"
+    - "DELETE"
+    - "CREATE"
+    - "DROP"
+    - "INDEX"
+    - "ALTER"
+  database: {{ .Values.database.database | default "appdb" }}
+  table: "*"
+  username: app-rw-user
+

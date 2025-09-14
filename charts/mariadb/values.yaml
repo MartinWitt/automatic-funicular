@@ -1,40 +1,39 @@
-# Example values for mariadb application chart (single database)
-# This chart expects a pre-existing secret with MariaDB credentials.
-# See the README for instructions on creating the secret with kubeseal.
+# MariaDB Helm Chart Values
+# This chart creates a MariaDB instance with auto-generated user credentials
 
 database:
   # Enable rendering of the MariaDB CR
-  enabled: true # boolean (default: true)
+  enabled: true
 
   # Kubernetes resource name for the MariaDB CR
-  name: "mariadb" # string (default: "mariadb")
+  name: "mariadb"
 
-  # Name of the Secret resource that contains credentials
+  # Name of the Secret resource that contains root credentials
   # This secret must be created separately using kubeseal or other methods
-  secretName: "mariadb-user" # string
+  secretName: "mariadb-user"
 
   # Logical database name to create/manage
-  database: "appdb" # string (default: "appdb")
+  database: "appdb"
 
   # Database username (must match the username in the secret)
-  username: "root" # string (default: "root")
+  username: "root"
 
   # Number of MariaDB replicas
-  replicas: 1 # integer (default: 1)
+  replicas: 1
 
   # TCP port MariaDB listens on
-  port: 3306 # integer (default: 3306)
+  port: 3306
 
   # Storage settings for the PVC
   storage:
-    size: "1Gi" # string (default: "1Gi")
-    storageClassName: "local-path" # string (default: "local-path")
+    size: "1Gi"
+    storageClassName: "local-path"
 
   # Resource requests/limits for the MariaDB pods
   resources:
     requests:
-      cpu: "100m" # string (default: "100m")
-      memory: "256Mi" # string (default: "256Mi")
+      cpu: "100m"
+      memory: "256Mi"
     limits:
-      cpu: "500m" # string (default: "500m")
-      memory: "512Mi" # string (default: "512Mi")
+      cpu: "500m"
+      memory: "512Mi"
