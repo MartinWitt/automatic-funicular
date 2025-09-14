@@ -7,6 +7,10 @@ metadata:
   name: {{ $name }}
   namespace: {{ .Release.Namespace }}
 spec:
+  passwordSecretKeyRef:
+    generate: false
+    key: root-password
+    name: {{ $db.secretName }}
   rootPasswordSecretKeyRef:
     generate: false
     name: {{ $db.secretName }}
