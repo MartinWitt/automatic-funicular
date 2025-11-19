@@ -1,5 +1,5 @@
 # Default values for ingressutil
-ingress:
+ingressutil:
   enabled: true
   # Define multiple ingress entries explicitly. Each item must provide its own
   # required fields (at minimum `subdomain` and `baseUrl`). No global defaults

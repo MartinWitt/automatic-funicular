@@ -2,4 +2,4 @@ apiVersion: v2
 name: ingressutil
 description: A utility Helm chart for creating standardized ingress resources with tls
 type: application
-version: 0.3.0
+version: 0.3.1
