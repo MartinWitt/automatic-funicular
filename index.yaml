@@ -33,6 +33,16 @@ entries:
     version: 0.1.0
   ingressutil:
   - apiVersion: v2
+    created: "2025-11-19T20:35:22.429852217Z"
+    description: A utility Helm chart for creating standardized ingress resources
+      with tls
+    digest: 24bd5aaba3a20393c1dbef0cbf73c9a1d9d41216ca87b3a8cc3497a1bce0f188
+    name: ingressutil
+    type: application
+    urls:
+    - https://github.com/MartinWitt/automatic-funicular/releases/download/ingressutil-0.3.1/ingressutil-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v2
     created: "2025-08-31T18:30:00.833434267Z"
     description: A utility Helm chart for creating standardized ingress resources
       with tls
@@ -161,4 +171,4 @@ entries:
     urls:
     - https://github.com/MartinWitt/automatic-funicular/releases/download/mariadb-0.1.0/mariadb-0.1.0.tgz
     version: 0.1.0
-generated: "2025-09-14T18:35:47.069066107Z"
+generated: "2025-11-19T20:35:22.42990204Z"
