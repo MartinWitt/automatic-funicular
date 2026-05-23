@@ -85,6 +85,17 @@ entries:
   mariadb:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2026-05-23T14:10:38.869062766Z"
+    description: chart that renders MariaDB custom resources and associated Secrets
+      from values.yaml
+    digest: befbf87ed68faf892038bd11123c2f7396738014c63b3742d3efff5063e78437
+    name: mariadb
+    type: application
+    urls:
+    - https://github.com/MartinWitt/automatic-funicular/releases/download/mariadb-0.8.0/mariadb-0.8.0.tgz
+    version: 0.8.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-11-19T20:40:03.571741316Z"
     description: chart that renders MariaDB custom resources and associated Secrets
       from values.yaml
@@ -182,4 +193,4 @@ entries:
     urls:
     - https://github.com/MartinWitt/automatic-funicular/releases/download/mariadb-0.1.0/mariadb-0.1.0.tgz
     version: 0.1.0
-generated: "2025-11-19T20:40:03.571796269Z"
+generated: "2026-05-23T14:10:38.86911287Z"
