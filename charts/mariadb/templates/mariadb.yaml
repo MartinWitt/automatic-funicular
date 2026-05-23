@@ -1,32 +1,28 @@
-{{- if .Values.database.enabled }}
-{{- $db := .Values.database -}}
-{{- $name := $db.name | default "mariadb" -}}
+{{- range $db := .Values.databases }}
+{{- $name := $db.name | required "databases[].name is required" }}
+{{- $database := $db.database | default $name }}
+---
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: MariaDB
 metadata:
   name: {{ $name }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ $.Release.Namespace }}
 spec:
-  passwordSecretKeyRef:
-    generate: false
-    key: root-password
-    name: {{ $db.secretName }}
   rootPasswordSecretKeyRef:
-    generate: false
-    name: {{ $db.secretName }}
-    key: root-password
-  database: {{ $db.database }}
-  username: {{ $db.username }}
+    generate: true
+    name: {{ $name }}-root
+    key: password
+  database: {{ $database }}
   replicas: {{ $db.replicas | default 1 }}
   port: {{ $db.port | default 3306 }}
   storage:
-    size: {{ $db.storage.size | default "1Gi" }}
-    storageClassName: {{ $db.storage.storageClassName | default "local-path" | quote }}
+    size: {{ dig "storage" "size" "1Gi" $db }}
+    storageClassName: {{ dig "storage" "storageClassName" "longhorn" $db | quote }}
   resources:
     requests:
-      cpu: {{ $db.resources.requests.cpu | default "100m" | quote }}
-      memory: {{ $db.resources.requests.memory | default "256Mi" | quote }}
+      cpu: {{ dig "resources" "requests" "cpu" "100m" $db | quote }}
+      memory: {{ dig "resources" "requests" "memory" "256Mi" $db | quote }}
     limits:
-      cpu: {{ $db.resources.limits.cpu | default "500m" | quote }}
-      memory: {{ $db.resources.limits.memory | default "512Mi" | quote }}
+      cpu: {{ dig "resources" "limits" "cpu" "500m" $db | quote }}
+      memory: {{ dig "resources" "limits" "memory" "512Mi" $db | quote }}
 {{- end }}

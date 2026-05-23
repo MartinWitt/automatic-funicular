@@ -1,0 +1,104 @@
+# Example: Spring Boot Deployment mit MariaDB Connection
+#
+# Voraussetzung: MariaDB Deployment mit DB 'todoapp' im Namespace 'bootfleet'
+#   helm install bootfleet-db ./charts/mariadb -n bootfleet --set databases[0].name=todoapp
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoapp
+  namespace: bootfleet
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todoapp
+  template:
+    metadata:
+      labels:
+        app: todoapp
+    spec:
+      containers:
+      - name: app
+        image: my-registry/todoapp:latest
+        ports:
+        - containerPort: 8080
+        env:
+          # JDBC URL - vom mariadb-operator generiert
+          - name: SPRING_DATASOURCE_URL
+            valueFrom:
+              secretKeyRef:
+                name: todoapp-rw-dsn
+                key: jdbc-url
+
+          # Username - vom mariadb-operator generiert
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: todoapp-rw-dsn
+                key: username
+
+          # Passwort - vom mariadb-operator generiert
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: todoapp-rw-dsn
+                key: password
+
+          # Weitere Spring Boot Properties
+          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+            value: "validate"
+          - name: SPRING_JPA_DATABASE_PLATFORM
+            value: "org.hibernate.dialect.MariaDB103Dialect"
+
+        # Readiness Probe - warte bis DB bereit
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+---
+# Service für die Deployment
+apiVersion: v1
+kind: Service
+metadata:
+  name: todoapp-svc
+  namespace: bootfleet
+spec:
+  selector:
+    app: todoapp
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP
+
+---
+# Optional: Ingress für externe Erreichbarkeit
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: todoapp
+  namespace: bootfleet
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: todoapp.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: todoapp-svc
+            port:
+              number: 80

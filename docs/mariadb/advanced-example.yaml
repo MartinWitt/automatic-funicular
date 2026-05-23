@@ -1,0 +1,69 @@
+# Example: Advanced Setup mit per-DB Overrides
+#
+# Zeigt verschiedene Konfigurationsszenarien für unterschiedliche Anforderungen.
+
+databases:
+  # Kleine App mit minimal Resources
+  - name: cache
+    replicas: 1
+    storage:
+      size: "500Mi"
+      storageClassName: "longhorn"
+    resources:
+      requests:
+        cpu: "50m"
+        memory: "128Mi"
+      limits:
+        cpu: "200m"
+        memory: "256Mi"
+
+  # Standard App mit default Settings
+  - name: todoapp
+    # Alles defaults:
+    # replicas: 1
+    # storage.size: 1Gi
+    # storage.storageClassName: longhorn
+    # resources: siehe values.yaml defaults
+
+  # Große App mit mehr Storage und Resources
+  - name: bigapp
+    database: "bigapp_production"  # custom DB-Name
+    replicas: 3
+    port: 3306
+    storage:
+      size: "50Gi"
+      storageClassName: "longhorn"
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+      limits:
+        cpu: "2000m"
+        memory: "2Gi"
+
+  # Read-Heavy App mit Read Replicas
+  - name: analytics
+    replicas: 2  # Primary + 1 Read Replica
+    storage:
+      size: "30Gi"
+      storageClassName: "longhorn"
+    resources:
+      requests:
+        cpu: "250m"
+        memory: "512Mi"
+      limits:
+        cpu: "1000m"
+        memory: "1Gi"
+
+  # Fallback auf local-path Storage für Test-Umgebung
+  - name: test-db
+    storage:
+      size: "1Gi"
+      storageClassName: "local-path"  # Overrides longhorn default
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "256Mi"
+      limits:
+        cpu: "500m"
+        memory: "512Mi"

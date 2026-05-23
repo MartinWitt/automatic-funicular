@@ -1,0 +1,45 @@
+{{- range $db := .Values.databases }}
+{{- $name := $db.name | required "databases[].name is required" }}
+{{- $database := $db.database | default $name }}
+{{- $jdbcFormat := `jdbc:mariadb://{{ .Host }}:{{ .Port }}/{{ .Database }}` }}
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Connection
+metadata:
+  name: {{ $name }}-rw
+  namespace: {{ $.Release.Namespace }}
+spec:
+  mariaDbRef:
+    name: {{ $name }}
+  username: {{ $name }}-rw
+  passwordSecretKeyRef:
+    name: {{ $name }}-rw-secret
+    key: password
+  database: {{ $database }}
+  secretName: {{ $name }}-rw-dsn
+  secretTemplate:
+    key: jdbc-url
+    format: {{ $jdbcFormat | quote }}
+    usernameKey: username
+    passwordKey: password
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Connection
+metadata:
+  name: {{ $name }}-ro
+  namespace: {{ $.Release.Namespace }}
+spec:
+  mariaDbRef:
+    name: {{ $name }}
+  username: {{ $name }}-ro
+  passwordSecretKeyRef:
+    name: {{ $name }}-ro-secret
+    key: password
+  database: {{ $database }}
+  secretName: {{ $name }}-ro-dsn
+  secretTemplate:
+    key: jdbc-url
+    format: {{ $jdbcFormat | quote }}
+    usernameKey: username
+    passwordKey: password
+{{- end }}

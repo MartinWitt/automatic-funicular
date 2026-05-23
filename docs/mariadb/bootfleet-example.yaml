@@ -1,0 +1,29 @@
+# Example: Bootfleet Service DBs
+#
+# Deploy with:
+#   helm install bootfleet-db ./charts/mariadb -n bootfleet -f docs/mariadb/bootfleet-example.yaml
+#
+# Erzeugt 3 DBs (cache, todoapp, links) im Namespace 'bootfleet'
+# mit allen default Settings.
+
+databases:
+  - name: cache
+    # database: cache  # nicht nötig, defaults zu 'cache'
+    replicas: 1
+    storage:
+      size: "1Gi"
+      storageClassName: "longhorn"
+
+  - name: todoapp
+    # database: todoapp  # nicht nötig, defaults zu 'todoapp'
+    replicas: 1
+    storage:
+      size: "2Gi"
+      storageClassName: "longhorn"
+
+  - name: links
+    # database: links  # nicht nötig, defaults zu 'links'
+    replicas: 1
+    storage:
+      size: "1Gi"
+      storageClassName: "longhorn"

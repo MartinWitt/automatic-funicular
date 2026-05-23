@@ -1,0 +1,112 @@
+# Example: ArgoCD Application für MariaDB Deployment
+#
+# Kopieren in dein GitOps-Repo:
+#   gitops-repo/apps/bootfleet/mariadb.yaml
+#
+# Neue DB hinzufügen:
+#   - Eintrag in 'databases' Array hinzufügen
+#   - Commit + Push
+#   - ArgoCD deployed automatisch
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bootfleet-mariadb
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/MartinWittlinger/automatic-funicular
+    targetRevision: HEAD
+    path: charts/mariadb
+    helm:
+      valuesInline:
+        databases:
+          - name: cache
+          - name: todoapp
+          - name: links
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bootfleet
+
+  syncPolicy:
+    automated:
+      prune: true        # Deletes resources not in Git
+      selfHeal: true     # Auto-sync on cluster drift
+    syncOptions:
+      - CreateNamespace=true
+
+---
+# Alternative: Mit per-DB Overrides
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: production-mariadb
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/MartinWittlinger/automatic-funicular
+    targetRevision: main
+    path: charts/mariadb
+    helm:
+      valuesInline:
+        databases:
+          - name: api
+            replicas: 3
+            storage:
+              size: "50Gi"
+
+          - name: reporting
+            replicas: 2
+            storage:
+              size: "100Gi"
+
+          - name: temp
+            storage:
+              size: "5Gi"
+              storageClassName: "local-path"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
+---
+# Alternative: Values aus separater Datei
+# (Falls du nicht inline values haben möchtest)
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: staging-mariadb
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/MartinWittlinger/automatic-funicular
+    targetRevision: HEAD
+    path: charts/mariadb
+    helm:
+      values: |
+        databases:
+          - name: staging-app
+          - name: staging-cache
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: staging
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

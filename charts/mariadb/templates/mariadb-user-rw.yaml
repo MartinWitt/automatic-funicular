@@ -1,26 +1,28 @@
-# Read/Write user
+{{- range $db := .Values.databases }}
+{{- $name := $db.name | required "databases[].name is required" }}
+{{- $database := $db.database | default $name }}
+---
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: User
 metadata:
-  name: app-rw-user
-  namespace: {{ .Release.Namespace }}
+  name: {{ $name }}-rw
+  namespace: {{ $.Release.Namespace }}
 spec:
   mariaDbRef:
-    name: {{ .Values.database.name | default "mariadb" }}
+    name: {{ $name }}
   passwordSecretKeyRef:
-    name: mariadb-app-rw
+    name: {{ $name }}-rw-secret
     key: password
   host: "%"
 ---
-# Grant read/write privileges to the read-write user
 apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
 metadata:
-  name: app-rw-privileges
-  namespace: {{ .Release.Namespace }}
+  name: {{ $name }}-rw-grant
+  namespace: {{ $.Release.Namespace }}
 spec:
   mariaDbRef:
-    name: {{ .Values.database.name | default "mariadb" }}
+    name: {{ $name }}
   privileges:
     - "SELECT"
     - "INSERT"
@@ -30,7 +32,7 @@ spec:
     - "DROP"
     - "INDEX"
     - "ALTER"
-  database: {{ .Values.database.database | default "appdb" }}
+  database: {{ $database }}
   table: "*"
-  username: app-rw-user
-
+  username: {{ $name }}-rw
+{{- end }}
